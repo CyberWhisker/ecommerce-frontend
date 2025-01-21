@@ -1,9 +1,8 @@
 import React from 'react'
-import MasterLayout from '../../layouts/MasterLayout'
 
 function Dashboard() {
     return (
-        <MasterLayout>Test</MasterLayout>
+        <div>Dashboard</div>
     )
 }
 

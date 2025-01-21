@@ -1,26 +1,22 @@
 import React from 'react'
-import MainLayout from '../../layouts/MainLayout'
-import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Grid2, Paper, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Grid2, Stack, Typography } from '@mui/material'
 import FadeInAnimation from '../../components/FadeInAnimation'
-import { Person } from '@mui/icons-material'
 import { Link } from 'react-router'
 
 function LandingPage() {
     return (
-        <MainLayout>
-            <Stack>
-                <HeroPage />
-                <FeaturePage />
-                <TechPage />
-            </Stack>
-        </MainLayout>
+        <Stack>
+            <HeroPage />
+            <FeaturePage />
+            <TechPage />
+        </Stack>
     )
 }
 
 function HeroPage() {
     return (
         <Box sx={{
-            height: '100vh',
+            py: 5,
         }}>
             <Container>
                 <Grid2 container spacing={2} sx={{ mt: 5 }}>
@@ -62,10 +58,9 @@ function FeaturePage() {
     ];
     return (
         <Box sx={{
-            height: '100vh',
-            backgroundColor: '#f0f0f0', // light grey color
+            py: 5,
         }}>
-            <Container sx={{ mt: 5 }}>
+            <Container>
                 <Typography variant='h1' fontWeight={'bold'} textAlign={'center'}>Features</Typography>
                 <Grid2 container spacing={2}>
                     {features.map((feature, index) => (
@@ -118,14 +113,13 @@ function TechPage() {
     return (
         <Box sx={{
             paddingY: 5,
-            backgroundColor: '#f0f0f0', // light grey color
         }}>
-            <Container sx={{ mt: 5 }}>
-                <h1>Tech Stack Page</h1>
+            <Container>
                 <Card
                     style={{ height: '100%' }}
                 >
                     <CardContent>
+                        <Typography variant='h3' fontWeight={'bold'} textAlign={'center'}>Tech Stack Page</Typography>
                         <Grid2 container spacing={2}>
                             {TechData.map((item, index) =>
                                 <Grid2 size={'grow'} key={index}>
