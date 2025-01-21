@@ -1,24 +1,22 @@
-import { Menu } from '@mui/icons-material'
-import { AppBar, Box, Button, CssBaseline, IconButton, Stack, Toolbar, Typography } from '@mui/material'
 import React from 'react'
+import { AppBar, Box, Button, Stack, Toolbar, Typography } from '@mui/material'
+import { useAuth0 } from "@auth0/auth0-react";
 
 function NavAppBar() {
+    const { loginWithRedirect, logout, isAuthenticated, isLoading } = useAuth0();
 
     const Navlist = [
-        {
-            title: 'Home',
-            url: '/'
-        },
-        {
-            title: 'Features',
-            url: '/features'
-        },
-        {
-            title: 'Tech Stack',
-            url: '/tech-stack'
-        },
+        isLoading ? {
+            title: 'Loading...',
+        } :
+            isAuthenticated ? {
+                title: 'Logout',
+                onClick: () => logout({ returnTo: window.location.origin })
+            } : {
+                title: 'Login',
+                onClick: () => loginWithRedirect()
+            },
     ]
-
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -33,7 +31,7 @@ function NavAppBar() {
                     </Typography>
                     <Stack direction={'row'} spacing={2}>
                         {Navlist.map((item, index) =>
-                            <Button variant='outlined' key={index} color="inherent" href={item.url}>{item.title}</Button>
+                            <Button variant='outlined' key={index} color="inherit" onClick={item.onClick} href={item.url}>{item.title}</Button>
                         )}
                     </Stack>
                 </Toolbar>

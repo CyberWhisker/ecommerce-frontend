@@ -1,4 +1,4 @@
-import { Box, Container, CssBaseline } from '@mui/material'
+import { Box, CssBaseline } from '@mui/material'
 import React from 'react'
 import NavAppBar from '../components/NavAppBar'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -20,7 +20,7 @@ function MainLayout({ children }) {
         <ThemeProvider theme={lightTheme}>
             <Box
                 sx={{
-                    backgroundImage: 'url(/appImg/Background-Rotate.svg)',
+                    backgroundImage: 'url(/appImg/Background.svg)',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     backgroundAttachment: 'fixed',
