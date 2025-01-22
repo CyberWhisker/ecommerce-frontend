@@ -1,7 +1,8 @@
 import React from 'react'
 import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Grid2, Stack, Typography } from '@mui/material'
 import FadeInAnimation from '../../components/FadeInAnimation'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function LandingPage() {
     return (
@@ -14,6 +15,16 @@ function LandingPage() {
 }
 
 function HeroPage() {
+    const { isAuthenticated, loginWithRedirect } = useAuth0();
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        if (isAuthenticated) {
+            navigate('/dashboard')
+        } else {
+            loginWithRedirect()
+        }
+    }
     return (
         <Box sx={{
             py: 5,
@@ -24,7 +35,7 @@ function HeroPage() {
                         <Stack spacing={2}>
                             <Typography variant="h1" color="initial" fontWeight={'bold'}>MUI Layout</Typography>
                             <Typography>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, voluptate assumenda dolor optio perferendis, consequatur eaque libero nemo natus modi sapiente? Quae deserunt accusamus optio, eum ipsam molestias eius voluptates?</Typography>
-                            <Button variant='contained' size='large' component={Link} to={'/dashboard'}>Get Started</Button>
+                            <Button variant='contained' size='large' onClick={() => handleSubmit()}>Get Started</Button>
                         </Stack>
                     </Grid2>
                     <Grid2 size='grow'>

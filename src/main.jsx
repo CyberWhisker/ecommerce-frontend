@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import LandingLayout from './layouts/landing';
 import LandingPage from './pages/Landing/LandingPage';
 import Users from './pages/Users/Users';
+import ProtectedRoute from './context/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,20 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        Component: Layout,
+        Component: () => (
+
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: '',
-            Component: Dashboard,
+            Component: () => (
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            ),
           },
         ]
       },
