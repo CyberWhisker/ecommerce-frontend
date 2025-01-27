@@ -16,55 +16,12 @@ import {
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
 import {
-    randomCreatedDate,
-    randomTraderName,
     randomId,
-    randomArrayItem,
 } from '@mui/x-data-grid-generator';
-import { Card, Stack } from '@mui/material';
+import { Card } from '@mui/material';
+import { fetchUserData } from '../../api/userApi';
 
 const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => {
-    return randomArrayItem(roles);
-};
-
-const initialRows = [
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 25,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 36,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 19,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 28,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 23,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-];
 
 function EditToolbar(props) {
     const { setRows, setRowModesModel } = props;
@@ -96,7 +53,7 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
-    const [rows, setRows] = React.useState(initialRows);
+    const [rows, setRows] = React.useState([]);
     const [rowModesModel, setRowModesModel] = React.useState({});
 
     const handleRowEditStop = (params, event) => {
@@ -141,33 +98,30 @@ export default function FullFeaturedCrudGrid() {
 
     const columns = [
         {
-            field: 'name',
-            headerName: 'Name',
-            width: 180,
+            field: 'picture',
+            headerName: 'Avatar',
+            headerAlign: 'center',
             editable: true,
-            flex: 1,
         },
         {
-            field: 'age',
-            headerName: 'Age',
-            type: 'number',
-            width: 80,
+            field: 'name',
+            headerName: 'Name',
             align: 'left',
             headerAlign: 'left',
             editable: true,
             flex: 1,
         },
         {
-            field: 'joinDate',
-            headerName: 'Join date',
+            field: 'email',
+            headerName: 'Email',
             type: 'date',
             width: 180,
             editable: true,
             flex: 1,
         },
         {
-            field: 'role',
-            headerName: 'Department',
+            field: 'last_login',
+            headerName: 'Last Login',
             width: 220,
             editable: true,
             type: 'singleSelect',
@@ -222,6 +176,10 @@ export default function FullFeaturedCrudGrid() {
         },
     ];
 
+    React.useEffect(() => {
+        setRows(handleGetData());
+    }, []);
+
     return (
         <Card
             sx={{
@@ -250,4 +208,13 @@ export default function FullFeaturedCrudGrid() {
             />
         </Card>
     );
+}
+
+const handleGetData = async () => {
+    const { data, error } = await fetchUserData();
+    if (error) {
+        console.log(error)
+    } else {
+        return data;
+    }
 }
