@@ -20,6 +20,7 @@ import {
 } from '@mui/x-data-grid-generator';
 import { Card } from '@mui/material';
 import { fetchUserData } from '../../api/userApi';
+import moment from 'moment';
 
 const roles = ['Market', 'Finance', 'Development'];
 
@@ -101,7 +102,6 @@ export default function FullFeaturedCrudGrid() {
             field: 'picture',
             headerName: 'Avatar',
             headerAlign: 'center',
-            editable: true,
         },
         {
             field: 'name',
@@ -114,7 +114,6 @@ export default function FullFeaturedCrudGrid() {
         {
             field: 'email',
             headerName: 'Email',
-            type: 'date',
             width: 180,
             editable: true,
             flex: 1,
@@ -123,9 +122,6 @@ export default function FullFeaturedCrudGrid() {
             field: 'last_login',
             headerName: 'Last Login',
             width: 220,
-            editable: true,
-            type: 'singleSelect',
-            valueOptions: ['Market', 'Finance', 'Development'],
             flex: 1,
         },
         {
@@ -176,8 +172,26 @@ export default function FullFeaturedCrudGrid() {
         },
     ];
 
+    const handleGetData = async () => {
+        const { data, error } = await fetchUserData();
+        if (error) {
+            console.log(error)
+        } else {
+            console.log(data)
+            const formattedRows = data.map((item) => ({
+                id: item.user_id,
+                name: item.name,
+                email: item.email,
+                last_login: moment(item.last_login),
+                picture: item.picture,
+                role: item.role,
+            }));
+            setRows(formattedRows);
+        }
+    }
+
     React.useEffect(() => {
-        setRows(handleGetData());
+        handleGetData();
     }, []);
 
     return (
@@ -210,11 +224,3 @@ export default function FullFeaturedCrudGrid() {
     );
 }
 
-const handleGetData = async () => {
-    const { data, error } = await fetchUserData();
-    if (error) {
-        console.log(error)
-    } else {
-        return data;
-    }
-}
