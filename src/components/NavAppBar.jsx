@@ -1,6 +1,7 @@
 import React from 'react'
 import { AppBar, Box, Button, Stack, Toolbar, Typography } from '@mui/material'
 import { useAuth0 } from "@auth0/auth0-react";
+import GoogleButton from './GoogleButton';
 
 function NavAppBar() {
     const { loginWithRedirect, logout, isAuthenticated, isLoading } = useAuth0();
@@ -22,6 +23,7 @@ function NavAppBar() {
         <Box sx={{ display: 'flex' }}>
             <AppBar component="nav">
                 <Toolbar>
+                    <GoogleButton />
                     <Typography
                         variant="h6"
                         component="div"

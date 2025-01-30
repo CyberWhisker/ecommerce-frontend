@@ -10,6 +10,10 @@ import LandingLayout from './layouts/landing';
 import LandingPage from './pages/Landing/LandingPage';
 import Users from './pages/Users/Users';
 import ProtectedRoute from './context/ProtectedRoute';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import AuthLayout from './layouts/auth';
+import Login from './pages/Auth/Login/Login';
+import Register from './pages/Auth/Register/Register';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +26,26 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: LandingPage,
+          },
+        ]
+      },
+      {
+        path: '/login',
+        Component: AuthLayout,
+        children: [
+          {
+            path: '',
+            Component: Login,
+          },
+        ]
+      },
+      {
+        path: '/register',
+        Component: AuthLayout,
+        children: [
+          {
+            path: '',
+            Component: Register,
           },
         ]
       },
@@ -60,14 +84,16 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Auth0Provider
-      domain="dev-gezmtakfp1hntbsd.us.auth0.com"
-      clientId="gACcsxpPns4hKvehBEpkh49NMoRscLWd"
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-    >
-      <RouterProvider router={router} />
-    </Auth0Provider>
+    <GoogleOAuthProvider clientId="1095160726391-43792gti1phme0ni89t8bdov9m1dfkgv.apps.googleusercontent.com">
+      <Auth0Provider
+        domain="dev-gezmtakfp1hntbsd.us.auth0.com"
+        clientId="gACcsxpPns4hKvehBEpkh49NMoRscLWd"
+        authorizationParams={{
+          redirect_uri: window.location.origin
+        }}
+      >
+        <RouterProvider router={router} />
+      </Auth0Provider>
+    </GoogleOAuthProvider>;
   </StrictMode>,
 )
