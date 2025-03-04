@@ -1,29 +1,14 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { AppBar, Box, Button, Stack, Toolbar, Typography } from '@mui/material'
-import { useAuth0 } from "@auth0/auth0-react";
-import GoogleButton from './GoogleButton';
+import { Link } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
 
 function NavAppBar() {
-    const { loginWithRedirect, logout, isAuthenticated, isLoading } = useAuth0();
-
-    const Navlist = [
-        isLoading ? {
-            title: 'Loading...',
-        } :
-            isAuthenticated ? {
-                title: 'Logout',
-                onClick: () => logout({ returnTo: window.location.origin })
-            } : {
-                title: 'Login',
-                onClick: () => loginWithRedirect()
-            },
-    ]
 
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar component="nav">
                 <Toolbar>
-                    <GoogleButton />
                     <Typography
                         variant="h6"
                         component="div"
@@ -32,13 +17,29 @@ function NavAppBar() {
                         MUI
                     </Typography>
                     <Stack direction={'row'} spacing={2}>
-                        {Navlist.map((item, index) =>
-                            <Button variant='outlined' key={index} color="inherit" onClick={item.onClick} href={item.url}>{item.title}</Button>
-                        )}
+                        <ToggleAuthButton />
                     </Stack>
                 </Toolbar>
             </AppBar>
         </Box >
+    )
+}
+
+function ToggleAuthButton() {
+    const { auth, logout } = useContext(AuthContext)
+    return (
+        <>
+            {auth ? (
+                <>
+                    <Button variant='contained' color='error' onClick={() => logout()}>Logout</Button>
+                </>
+            ) : (
+                <>
+                    <Button variant='contained' sx={{ bgcolor: '#7ab6d3' }} component={Link} to={'/login'}>Login</Button>
+                    <Button variant='contained' sx={{ bgcolor: '#7ab6d3' }} component={Link} to={'/register'}>Register</Button>
+                </>
+            )}
+        </>
     )
 }
 

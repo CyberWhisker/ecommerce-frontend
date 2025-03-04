@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { TextField, Button, Checkbox, FormControlLabel, Typography, Paper, Box } from "@mui/material";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import { TextField, Button, Checkbox, FormControlLabel, Typography, Paper, Box, Stack, Divider } from "@mui/material";
+import { Link, useNavigate } from "react-router";
 import { registerUser } from "../../../api/userApi";
 import { toast } from "react-toastify";
+import GoogleButton from "../../../components/GoogleButton";
+import { AuthContext } from "../../../context/AuthContext";
 
 function Register() {
+    const { setAuth } = useContext(AuthContext)
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -48,7 +52,10 @@ function Register() {
             if (response.error) {
                 toast.error(response.error)
             } else {
-                console.log("Register Success:", response.data);
+                toast.success("Successfully Registered")
+                localStorage.setItem('auth', JSON.stringify(data))
+                setAuth(data)
+                navigate('/')
             }
         }
     };
@@ -56,63 +63,74 @@ function Register() {
     return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
             <Paper elevation={3} sx={{ padding: 4, width: 400 }}>
-                <Typography variant="h4" textAlign="center" gutterBottom>
-                    Register
-                </Typography>
-                <form onSubmit={handleSubmit}>
-                    <TextField
-                        fullWidth
-                        label="Full Name"
-                        name="name"
-                        variant="outlined"
-                        margin="normal"
-                        value={form.name}
-                        onChange={handleChange}
-                        error={Boolean(errors.name)}
-                        helperText={errors.name}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        variant="outlined"
-                        margin="normal"
-                        value={form.email}
-                        onChange={handleChange}
-                        error={Boolean(errors.email)}
-                        helperText={errors.email}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Password"
-                        name="password"
-                        type="password"
-                        variant="outlined"
-                        margin="normal"
-                        value={form.password}
-                        onChange={handleChange}
-                        error={Boolean(errors.password)}
-                        helperText={errors.password}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Confirm Password"
-                        name="confirmPassword"
-                        type="password"
-                        variant="outlined"
-                        margin="normal"
-                        value={form.confirmPassword}
-                        onChange={handleChange}
-                        error={Boolean(errors.confirmPassword)}
-                        helperText={errors.confirmPassword}
-                    />
-                    <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+                <Stack spacing={1}>
+                    <Typography variant="h4" textAlign="center" gutterBottom>
                         Register
-                    </Button>
-                    <Button fullWidth variant="outlined" sx={{ mt: 2 }} component={Link} to="/login">
-                        Already have an account?
-                    </Button>
-                </form>
+                    </Typography>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            fullWidth
+                            label="Full Name"
+                            name="name"
+                            variant="outlined"
+                            margin="normal"
+                            value={form.name}
+                            onChange={handleChange}
+                            error={Boolean(errors.name)}
+                            helperText={errors.name}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            variant="outlined"
+                            margin="normal"
+                            value={form.email}
+                            onChange={handleChange}
+                            error={Boolean(errors.email)}
+                            helperText={errors.email}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            name="password"
+                            type="password"
+                            variant="outlined"
+                            margin="normal"
+                            value={form.password}
+                            onChange={handleChange}
+                            error={Boolean(errors.password)}
+                            helperText={errors.password}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Confirm Password"
+                            name="confirmPassword"
+                            type="password"
+                            variant="outlined"
+                            margin="normal"
+                            value={form.confirmPassword}
+                            onChange={handleChange}
+                            error={Boolean(errors.confirmPassword)}
+                            helperText={errors.confirmPassword}
+                        />
+                        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+                            Register
+                        </Button>
+
+                        <Button fullWidth variant="outlined" sx={{ mt: 2 }} component={Link} to="/login">
+                            Already have an account?
+                        </Button>
+                    </form>
+
+
+                    <Stack direction="row" alignItems="center" spacing={2} width="100%">
+                        <Divider sx={{ flexGrow: 1 }} />
+                        <Typography sx={{ whiteSpace: "nowrap" }}>OR</Typography>
+                        <Divider sx={{ flexGrow: 1 }} />
+                    </Stack>
+                    <GoogleButton />
+                </Stack>
             </Paper>
         </Box>
     );

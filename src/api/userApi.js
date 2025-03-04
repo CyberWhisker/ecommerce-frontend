@@ -14,6 +14,36 @@ export const loginUser = async (formData) => {
     }
 };
 
+export const updateUser = async (formData) => {
+    try {
+        const formDataObject = new FormData();
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key)) {
+                formDataObject.append(key, formData[key]);
+            }
+        }
+        const response = await axios.patch(`${API_URL}/${formData.id}`, formDataObject);
+        return { data: response.data, error: null };
+    } catch (error) {
+        return {
+            data: null,
+            error: error.response?.data?.error || "Something went wrong"
+        };
+    }
+};
+
+export const deleteUser = async (formData) => {
+    try {
+        const response = await axios.delete(`${API_URL}/${formData.id}`);
+        return { data: response.data, error: null };
+    } catch (error) {
+        return {
+            data: null,
+            error: error.response?.data?.error || "Something went wrong"
+        };
+    }
+};
+
 export const registerUser = async (formData) => {
     try {
         const response = await axios.post(`${API_URL}/register`, formData);
@@ -40,19 +70,11 @@ export const usingGoogle = async (formData) => {
 
 export const fetchUserData = async () => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API}/api/user`, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return { data, error: null };
+        const response = await axios.get(API_URL);
+        return { data: response.data, error: null };
     } catch (error) {
         return { data: [], error };
     }
 };
 
-fetchUserData();
+fetchUserData()

@@ -9,24 +9,20 @@ import {
     GridToolbar,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import { Avatar, Card } from '@mui/material';
+import { Avatar, Card, Drawer } from '@mui/material';
 import { fetchUserData } from '../../api/userApi';
 import moment from 'moment';
-
-
-function EditToolbar() {
-    return (
-        <GridToolbarContainer>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                <GridToolbar />
-                <GridToolbarQuickFilter />
-            </Box>
-        </GridToolbarContainer>
-    );
-}
+import Edit from './Forms/Edit';
+import { toast } from 'react-toastify';
+import AlertModal from '../../components/AlertModal';
+import Delete from './Forms/Delete';
 
 export default function FullFeaturedCrudGrid() {
     const [rows, setRows] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+
 
     const columns = [
         {
@@ -55,8 +51,8 @@ export default function FullFeaturedCrudGrid() {
             flex: 1,
         },
         {
-            field: 'last_login',
-            headerName: 'Last Login',
+            field: 'createdAt',
+            headerName: 'Created At',
             width: 220,
             flex: 1,
         },
@@ -66,35 +62,46 @@ export default function FullFeaturedCrudGrid() {
             headerName: 'Actions',
             width: 100,
             cellClassName: 'actions',
-            getActions: ({ id }) => {
+            getActions: ({ row }) => {
                 return [
                     <GridActionsCellItem
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
                         color="inherit"
+                        onClick={() => handleEditModal(row)}
                     />,
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         label="Delete"
                         color="inherit"
+                        onClick={() => handleDeleteModal(row)}
                     />,
                 ];
             },
         },
     ];
 
+    const handleEditModal = (data) => {
+        setSelected(data)
+        setEditModal(true)
+    }
+
+    const handleDeleteModal = (data) => {
+        setSelected(data)
+        setDeleteModal(true)
+    }
+
     const handleGetData = async () => {
         const { data, error } = await fetchUserData();
         if (error) {
             console.log(error)
         } else {
-            console.log(data);
             const formattedRows = data.map((item) => ({
-                id: item.user_id,
+                id: item.id,
                 name: item.name,
                 email: item.email,
-                last_login: moment(item.last_login).format('YYYY-MM-DD HH:mm:ss'),
+                createdAt: moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                 picture: item.picture,
                 role: item.role,
             }));
@@ -127,7 +134,35 @@ export default function FullFeaturedCrudGrid() {
                     toolbar: { showQuickFilter: true, }
                 }}
             />
+            <Drawer
+                open={editModal}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+                onClose={() => setEditModal(false)}
+            >
+                <Edit selected={selected} onClose={() => setEditModal(false)} handleGetData={handleGetData} />
+            </Drawer>
+
+            <AlertModal
+                open={deleteModal}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+                onClose={() => setDeleteModal(false)}
+            >
+                <Delete selected={selected} onClose={() => setDeleteModal(false)} handleGetData={handleGetData} />
+            </AlertModal>
         </Card>
+    );
+}
+
+function EditToolbar() {
+    return (
+        <GridToolbarContainer>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <GridToolbar />
+                <GridToolbarQuickFilter />
+            </Box>
+        </GridToolbarContainer>
     );
 }
 

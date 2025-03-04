@@ -5,19 +5,19 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import { Account, AccountPreview } from '@toolpad/core';
 import { Divider, Stack } from '@mui/material';
 import { Logout } from '@mui/icons-material';
-import { useAuth0 } from '@auth0/auth0-react';
+import { AuthContext } from '../context/AuthContext';
+import CustomToast from '../components/CustomToast';
 
 export default function Layout() {
     return (
-        <>
-            <DashboardLayout
-                slots={{ toolbarAccount: () => null, sidebarFooter: SidebarFooterAccount }}
-            >
-                <PageContainer>
-                    <Outlet />
-                </PageContainer>
-            </DashboardLayout>
-        </>
+        <DashboardLayout
+            slots={{ toolbarAccount: () => null, sidebarFooter: SidebarFooterAccount }}
+        >
+            <PageContainer>
+                <Outlet />
+                <CustomToast />
+            </PageContainer>
+        </DashboardLayout>
     );
 }
 
@@ -37,14 +37,14 @@ function AccountSidebarPreview(props) {
 
 const createPreviewComponent = (mini) => {
     function PreviewComponent(props) {
-        return <AccountSidebarPreview {...props} mini={mini} />;
+        return <AccountSidebarPreview {...props} mini={mini} />
     }
     return PreviewComponent;
 };
 
 function SidebarFooterAccount({ mini }) {
     const PreviewComponent = React.useMemo(() => createPreviewComponent(mini), [mini]);
-    const { logout } = useAuth0();
+    const { logout } = React.useContext(AuthContext);
 
     return (
         <Account
@@ -87,5 +87,5 @@ function SidebarFooterAccount({ mini }) {
                 },
             }}
         />
-    );
+    )
 }

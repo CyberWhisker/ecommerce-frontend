@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import './css/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from './App';
-import { Auth0Provider } from '@auth0/auth0-react';
 import Layout from './layouts/dashboard';
 import Dashboard from './pages/Dashboard/Dashboard';
 import LandingLayout from './layouts/landing';
@@ -14,6 +13,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
 import Login from './pages/Auth/Login/Login';
 import Register from './pages/Auth/Register/Register';
+import { AuthProvider } from './context/AuthContext';
 
 const router = createBrowserRouter([
   {
@@ -74,7 +74,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            Component: Users,
+            Component: () => (
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            ),
           },
         ]
       },
@@ -85,15 +89,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <GoogleOAuthProvider clientId="1095160726391-43792gti1phme0ni89t8bdov9m1dfkgv.apps.googleusercontent.com">
-      <Auth0Provider
-        domain="dev-gezmtakfp1hntbsd.us.auth0.com"
-        clientId="gACcsxpPns4hKvehBEpkh49NMoRscLWd"
-        authorizationParams={{
-          redirect_uri: window.location.origin
-        }}
-      >
+      <AuthProvider>
         <RouterProvider router={router} />
-      </Auth0Provider>
-    </GoogleOAuthProvider>;
+      </AuthProvider>
+    </GoogleOAuthProvider>
   </StrictMode>,
 )

@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Outlet } from 'react-router'
 import { DashboardOutlined, Person } from '@mui/icons-material'
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
-import { SignInPage } from '@toolpad/core';
-import { useAuth0 } from '@auth0/auth0-react';
+import { AuthContext } from './context/AuthContext';
 
 const NAVIGATION = [
   {
@@ -36,25 +35,25 @@ const demoSession = {
 };
 
 function App() {
-  const { user, isLoading, isAuthenticated } = useAuth0(); // Destructure necessary auth states
+  const { auth, user, isLoading } = useContext(AuthContext)
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (auth) {
       setSession({
         user: {
-          name: user.name,
-          email: user.email,
-          image: user.picture,
+          name: auth.name,
+          email: auth.email,
+          image: auth.picture,
         },
       });
     }
-  }, [isAuthenticated, user]);
+  }, [auth, user]);
 
   const authentication = useMemo(() => {
     return {
       signIn: () => {
-        setSession(demoSession);
+        setSession(auth);
       },
       signOut: () => {
         setSession(null);
