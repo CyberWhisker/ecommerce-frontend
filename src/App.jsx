@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Outlet } from 'react-router'
-import { DashboardOutlined, Person } from '@mui/icons-material'
+import { DashboardOutlined, Person, Settings } from '@mui/icons-material'
 import { ReactRouterAppProvider } from '@toolpad/core/react-router'
 import { AuthContext } from './context/AuthContext';
 
@@ -19,19 +19,20 @@ const NAVIGATION = [
     title: 'Users',
     icon: <Person />,
   },
+  {
+    kind: 'header',
+    title: 'Maintenance',
+  },
+  {
+    segment: 'techStack',
+    title: 'Tech Stack',
+    icon: <Settings />,
+  },
 ];
 
 const BRANDING = {
   title: 'CyberWhiskers',
   homeUrl: '/dashboard'
-};
-
-const demoSession = {
-  user: {
-    name: 'Bharat Kashyap',
-    email: 'bharatkashyap@outlook.com',
-    image: 'https://avatars.githubusercontent.com/u/19550456',
-  },
 };
 
 function App() {

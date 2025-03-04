@@ -3,17 +3,17 @@ import { createRoot } from 'react-dom/client'
 import './css/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from './App';
-import Layout from './layouts/dashboard';
-import Dashboard from './pages/Dashboard/Dashboard';
 import LandingLayout from './layouts/landing';
 import LandingPage from './pages/Landing/LandingPage';
-import Users from './pages/Users/Users';
 import ProtectedRoute from './context/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
 import Login from './pages/Auth/Login/Login';
 import Register from './pages/Auth/Register/Register';
 import { AuthProvider } from './context/AuthContext';
+import Dashboard from './pages/Admin/Dashboard/Dashboard';
+import Users from './pages/Admin/Users/Users';
+import TechStack from './pages/Admin/TechStack/TechStack';
 
 const router = createBrowserRouter([
   {
@@ -51,34 +51,31 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        Component: () => (
-
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        ),
+        Component: ProtectedRoute,
         children: [
           {
             path: '',
-            Component: () => (
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            ),
+            Component: Dashboard
           },
         ]
       },
       {
         path: '/user',
-        Component: Layout,
+        Component: ProtectedRoute,
         children: [
           {
             path: '',
-            Component: () => (
-              <ProtectedRoute>
-                <Users />
-              </ProtectedRoute>
-            ),
+            Component: Users,
+          },
+        ]
+      },
+      {
+        path: '/techStack',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: TechStack,
           },
         ]
       },
