@@ -1,6 +1,5 @@
-import { Avatar, Box, Button, Card, Divider, MenuItem, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { updateUser } from '../../../../api/userApi'
 import { toast } from 'react-toastify'
 import { Image } from '@mui/icons-material';
 import { storeTechStack } from '../../../../api/techStack';

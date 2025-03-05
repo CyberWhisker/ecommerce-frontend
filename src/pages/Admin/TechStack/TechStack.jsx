@@ -9,14 +9,14 @@ import {
     GridToolbar,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Drawer, Fab, Grid2, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Divider, Drawer, Fab, Grid2, IconButton, Typography } from '@mui/material';
 import { fetchUserData } from '../../../api/userApi';
 import moment from 'moment';
 import Edit from './Forms/Edit';
 import AlertModal from '../../../components/AlertModal';
 import Delete from './Forms/Delete';
 import FadeInAnimation from '../../../components/FadeInAnimation';
-import { Add } from '@mui/icons-material';
+import { Add, EditAttributes, Update } from '@mui/icons-material';
 import Store from './Forms/Store';
 import { fetchTechStack } from '../../../api/techStack';
 import { toast } from 'react-toastify';
@@ -52,7 +52,7 @@ export default function TechStack() {
 
     return (
         <Box>
-            <CardList rows={rows} />
+            <CardList rows={rows} handleGetData={handleGetData} />
             <AddContent handleGetData={handleGetData} />
             <Drawer
                 open={editModal}
@@ -75,7 +75,7 @@ export default function TechStack() {
     );
 }
 
-function CardList({ rows }) {
+function CardList({ rows, handleGetData }) {
     return (
         <Grid2 container spacing={2}>
             {rows.map((item, index) => (
@@ -94,13 +94,14 @@ function CardList({ rows }) {
                                 height="180"
                                 image={item.image}
                             />
+                            <Divider />
                             <CardContent>
                                 <Typography>{item.title}</Typography>
                                 <Typography>{item.description}</Typography>
                             </CardContent>
-                            <CardActions>
-                                <Button variant='contained' color='warning'>Edit</Button>
-                                <Button variant='contained' color='error'>Delete</Button>
+                            <CardActions sx={{ justifyContent: 'flex-end' }}>
+                                <EditContent handleGetData={handleGetData} selected={item} />
+                                <DeleteContent handleGetData={handleGetData} selected={item} />
                             </CardActions>
                         </Card>
                     </FadeInAnimation>
@@ -137,6 +138,48 @@ function AddContent({ handleGetData }) {
                     onClose={() => setStoreModal(false)}
                 />
             </Drawer>
+        </>
+    )
+}
+
+function EditContent({ handleGetData, selected }) {
+    const [modal, setModal] = useState(false)
+    return (
+        <>
+            <IconButton variant='contained' color='warning' onClick={() => setModal(true)}><EditIcon /></IconButton>
+            <Drawer
+                open={modal}
+                onClose={() => setModal(false)}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+            >
+                <Edit
+                    selected={selected}
+                    handleGetData={handleGetData}
+                    onClose={() => setModal(false)}
+                />
+            </Drawer>
+        </>
+    )
+}
+
+function DeleteContent({ handleGetData, selected }) {
+    const [modal, setModal] = useState(false)
+    return (
+        <>
+            <IconButton variant='contained' color='error' onClick={() => setModal(true)}><DeleteIcon /></IconButton>
+            <AlertModal
+                open={modal}
+                onClose={() => setModal(false)}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+            >
+                <Delete
+                    selected={selected}
+                    handleGetData={handleGetData}
+                    onClose={() => setModal(false)}
+                />
+            </AlertModal>
         </>
     )
 }
