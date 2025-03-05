@@ -79,12 +79,12 @@ function CardList({ rows, handleGetData }) {
     return (
         <Grid2 container spacing={2}>
             {rows.map((item, index) => (
-                <Grid2 size={3} key={index}>
+                <Grid2 size={{ xs: 6, md: 3 }} key={index}>
                     <FadeInAnimation index={index}>
                         <Card
                             style={{
                                 // backgroundColor: 'slategrey',
-                                height: '40vh',
+                                height: '100%',
                                 width: '100%' // Make width responsive
                             }}
                         >

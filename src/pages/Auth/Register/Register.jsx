@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { TextField, Button, Checkbox, FormControlLabel, Typography, Paper, Box, Stack, Divider } from "@mui/material";
+import { TextField, Button, Typography, Paper, Box, Stack, Divider } from "@mui/material";
 import { Link, useNavigate } from "react-router";
 import { registerUser } from "../../../api/userApi";
 import { toast } from "react-toastify";
@@ -48,9 +48,9 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate()) {
-            const response = await registerUser(form);
-            if (response.error) {
-                toast.error(response.error)
+            const { data, error } = await registerUser(form);
+            if (error) {
+                toast.error(error)
             } else {
                 toast.success("Successfully Registered")
                 localStorage.setItem('auth', JSON.stringify(data))

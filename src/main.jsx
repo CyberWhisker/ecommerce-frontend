@@ -14,6 +14,10 @@ import { AuthProvider } from './context/AuthContext';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import Users from './pages/Admin/Users/Users';
 import TechStack from './pages/Admin/TechStack/TechStack';
+import Verify from './pages/Verify/Verify';
+import NotVerified from './pages/NotVerified/NotVerified';
+import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +30,26 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: LandingPage,
+          },
+        ]
+      },
+      {
+        path: '/verify-email',
+        Component: LandingLayout,
+        children: [
+          {
+            path: '',
+            Component: Verify,
+          },
+        ]
+      },
+      {
+        path: '/notVerified',
+        Component: LandingLayout,
+        children: [
+          {
+            path: '',
+            Component: NotVerified,
           },
         ]
       },
@@ -46,6 +70,26 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: Register,
+          },
+        ]
+      },
+      {
+        path: '/forgotPassword',
+        Component: AuthLayout,
+        children: [
+          {
+            path: '',
+            Component: ForgotPassword,
+          },
+        ]
+      },
+      {
+        path: '/reset-password',
+        Component: AuthLayout,
+        children: [
+          {
+            path: '',
+            Component: ResetPassword,
           },
         ]
       },

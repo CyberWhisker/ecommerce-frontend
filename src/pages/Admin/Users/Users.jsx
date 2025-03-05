@@ -9,7 +9,7 @@ import {
     GridToolbar,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import { Avatar, Card, Drawer } from '@mui/material';
+import { Avatar, Card, Chip, Drawer } from '@mui/material';
 import { fetchUserData } from '../../../api/userApi';
 import moment from 'moment';
 import Edit from './Forms/Edit';
@@ -56,6 +56,22 @@ export default function FullFeaturedCrudGrid() {
             flex: 1,
         },
         {
+            field: 'verified',
+            headerName: 'Verified',
+            width: 220,
+            flex: 1,
+            renderCell: ({ row }) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    {row.verified && (
+                        <Chip color='success' label='Verified' />
+                    )}
+                    {!row.verified && (
+                        <Chip color='error' label='Not Verified' />
+                    )}
+                </Box>
+            )
+        },
+        {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
@@ -66,14 +82,13 @@ export default function FullFeaturedCrudGrid() {
                     <GridActionsCellItem
                         icon={<EditIcon />}
                         label="Edit"
-                        className="textPrimary"
-                        color="inherit"
+                        color="warning"
                         onClick={() => handleEditModal(row)}
                     />,
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         label="Delete"
-                        color="inherit"
+                        color="error"
                         onClick={() => handleDeleteModal(row)}
                     />,
                 ];
@@ -102,6 +117,7 @@ export default function FullFeaturedCrudGrid() {
                 email: item.email,
                 createdAt: moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                 picture: item.picture,
+                verified: item.verified,
                 role: item.role,
             }));
             setRows(formattedRows);

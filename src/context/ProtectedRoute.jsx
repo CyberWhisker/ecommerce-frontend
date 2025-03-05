@@ -6,11 +6,15 @@ import Layout from '../layouts/dashboard';
 const ProtectedRoute = ({ children }) => {
     const { auth, isLoading } = useContext(AuthContext);
 
-    return auth ?
-        <Layout>
-            <Outlet />
-        </Layout>
-        : <Navigate to="/login" replace />;
+    if (!auth) {
+        return <Navigate to="/login" replace />
+    }
+
+    if (!auth.verified) {
+        return <Navigate to="/notVerified" />
+    }
+
+    return <Layout><Outlet /></Layout>
 };
 
 export default ProtectedRoute;

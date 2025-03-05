@@ -75,12 +75,15 @@ function Login() {
                             error={Boolean(errors.password)}
                             helperText={errors.password}
                         />
-                        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
-                            Sign In
-                        </Button>
-                        <Button fullWidth variant="outlined" sx={{ mt: 2 }} component={Link} to="/register">
-                            Register
-                        </Button>
+                        <Stack spacing={1}>
+                            <Button fullWidth variant="contained" color="primary" type="submit" >
+                                Sign In
+                            </Button>
+                            <Typography textAlign={'right'} component={Link} to={'/forgotPassword'}>Forgot Password</Typography>
+                            <Button fullWidth variant="outlined" component={Link} to="/register">
+                                Register
+                            </Button>
+                        </Stack>
                     </form>
                     <Stack direction="row" alignItems="center" spacing={2} width="100%">
                         <Divider sx={{ flexGrow: 1 }} />
