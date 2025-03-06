@@ -10,7 +10,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
 import { AuthProvider } from './context/AuthContext';
 import { ForgotPassword, Login, NotVerified, Register, ResetPassword, Verify } from './pages/Auth';
-import { Dashboard, TechStack, Users } from './pages/Admin';
+import { Dashboard, TechStack, Users, Projects } from './pages/Admin';
 import { EcommerceDashboard, EcommerceInventory } from './pages/Ecommerce';
 
 const router = createBrowserRouter([
@@ -106,6 +106,16 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: Users,
+          },
+        ]
+      },
+      {
+        path: '/projects',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: Projects,
           },
         ]
       },
