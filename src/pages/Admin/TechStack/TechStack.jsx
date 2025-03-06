@@ -79,7 +79,17 @@ function CardList({ rows, handleGetData }) {
                             <Divider />
                             <CardContent>
                                 <Typography>{item.title}</Typography>
-                                <Typography>{item.description}</Typography>
+                                <Typography
+                                    sx={{
+                                        display: '-webkit-box',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 5, // Limits to 2 lines, adjust as needed
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >
+                                    {item.description}
+                                </Typography>
                             </CardContent>
                             <CardActions sx={{ justifyContent: 'flex-end' }}>
                                 <EditContent handleGetData={handleGetData} selected={item} />

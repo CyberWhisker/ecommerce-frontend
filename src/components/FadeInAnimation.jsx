@@ -24,7 +24,7 @@ function FadeInAnimation({ children, index }) {
             initial="initial"
             whileInView="animate"
             custom={index}
-            viewport={true}
+            viewport={{ once: true }}
             style={{ height: '100%' }}
         >
             {children}

@@ -24,8 +24,8 @@ const NAVIGATION_CONFIG = {
 
 // Branding Configurations
 const BRANDING_CONFIG = {
-  admin: { title: 'CyberWhiskers', homeUrl: '/dashboard' },
-  ecommerce: { title: 'Ecommerce', homeUrl: '/ecommerce/dashboard' },
+  admin: { title: 'CyberWhiskers', homeUrl: '/' },
+  ecommerce: { title: 'Ecommerce', homeUrl: '/' },
 };
 
 // Helper function to get current navigation and branding
