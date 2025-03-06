@@ -36,17 +36,7 @@ export default function Edit({ selected, onClose, handleGetData }) {
                 <Divider />
                 <form onSubmit={handleSubmit}>
                     <Stack spacing={1}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            {/* <Avatar src={formData.picture} sx={{ height: '20vh', width: '20vh' }} /> */}
-                            <UpdateProfile formData={formData} setFormData={setFormData} />
-                        </Box>
-                        <Typography>Update Picture</Typography>
-                        <TextField
-                            type='file'
-                            name='file'
-                            onChange={handleFileChange}
-                            multiple
-                        />
+                        <UpdateProfile formData={formData} setFormData={setFormData} />
                         <Divider />
                         <Typography>User Information</Typography>
                         <TextField label={'Name'} value={formData.name} name='name' onChange={handleChange} />
@@ -77,7 +67,7 @@ function UpdateProfile({ formData, setFormData }) {
 
     return (
         <Box>
-            <Typography>Select Picture</Typography>
+            <Typography>Profile</Typography>
             <input
                 type="file"
                 id="fileInput"
@@ -85,16 +75,14 @@ function UpdateProfile({ formData, setFormData }) {
                 accept="image/*"
                 onChange={handleFileChange}
             />
-            <Card
-                sx={{ height: "100%", width: "100%", cursor: "pointer" }}
-                onClick={() => document.getElementById("fileInput").click()}
-            >
-                <img
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Avatar
+                    onClick={() => document.getElementById("fileInput").click()}
                     src={preview || formData.picture || "/default-image.png"}
                     alt="Profile Preview"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    sx={{ width: "30vh", height: "30vh", cursor: 'pointer' }}
                 />
-            </Card>
+            </Box>
         </Box>
     );
 }
