@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function ForgotPassword() {
+    const navigate = useNavigate();
     const [success, setSuccess] = useState(false)
     const [form, setForm] = useState({ email: "" });
     const [errors, setErrors] = useState({ email: "" });

@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { CircularProgress, Typography, Box, Button } from '@mui/material';
 import { CheckCircle, ErrorOutline } from '@mui/icons-material';
 import { toast } from 'react-toastify';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../../context/AuthContext';
 
 const Verify = () => {
     const { setAuth } = useContext(AuthContext)

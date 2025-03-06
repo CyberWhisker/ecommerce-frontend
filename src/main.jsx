@@ -8,16 +8,11 @@ import LandingPage from './pages/Landing/LandingPage';
 import ProtectedRoute from './context/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
-import Login from './pages/Auth/Login/Login';
-import Register from './pages/Auth/Register/Register';
 import { AuthProvider } from './context/AuthContext';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import Users from './pages/Admin/Users/Users';
 import TechStack from './pages/Admin/TechStack/TechStack';
-import Verify from './pages/Verify/Verify';
-import NotVerified from './pages/NotVerified/NotVerified';
-import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
+import { ForgotPassword, Login, NotVerified, Register, ResetPassword, Verify } from './pages/Auth';
 
 const router = createBrowserRouter([
   {
