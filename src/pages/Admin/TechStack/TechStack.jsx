@@ -2,23 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import {
-    DataGrid,
-    GridToolbarContainer,
-    GridActionsCellItem,
-    GridToolbar,
-    GridToolbarQuickFilter
-} from '@mui/x-data-grid';
-import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Divider, Drawer, Fab, Grid2, IconButton, Typography } from '@mui/material';
-import { fetchUserData } from '../../../api/userApi';
-import moment from 'moment';
+import { Card, CardActions, CardContent, CardMedia, Divider, Drawer, Fab, Grid2, IconButton, Typography } from '@mui/material';
+
 import Edit from './Forms/Edit';
 import AlertModal from '../../../components/AlertModal';
 import Delete from './Forms/Delete';
 import FadeInAnimation from '../../../components/FadeInAnimation';
-import { Add, EditAttributes, Update } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import Store from './Forms/Store';
-import { fetchTechStack } from '../../../api/techStack';
+import { fetchTechStack } from '../../../api/techStackApi';
 import { toast } from 'react-toastify';
 
 export default function TechStack() {
@@ -26,16 +18,6 @@ export default function TechStack() {
     const [selected, setSelected] = useState([]);
     const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
-
-    const handleEditModal = (data) => {
-        setSelected(data)
-        setEditModal(true)
-    }
-
-    const handleDeleteModal = (data) => {
-        setSelected(data)
-        setDeleteModal(true)
-    }
 
     const handleGetData = async () => {
         const { data, error } = await fetchTechStack()

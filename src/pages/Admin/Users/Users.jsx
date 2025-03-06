@@ -18,10 +18,6 @@ import Delete from './Forms/Delete';
 
 export default function FullFeaturedCrudGrid() {
     const [rows, setRows] = useState([]);
-    const [selected, setSelected] = useState([]);
-    const [editModal, setEditModal] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
-
 
     const columns = [
         {
@@ -79,32 +75,12 @@ export default function FullFeaturedCrudGrid() {
             cellClassName: 'actions',
             getActions: ({ row }) => {
                 return [
-                    <GridActionsCellItem
-                        icon={<EditIcon />}
-                        label="Edit"
-                        color="warning"
-                        onClick={() => handleEditModal(row)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        label="Delete"
-                        color="error"
-                        onClick={() => handleDeleteModal(row)}
-                    />,
+                    <EditContent row={row} handleGetData={handleGetData} />,
+                    <DeleteContent row={row} handleGetData={handleGetData} />
                 ];
             },
         },
     ];
-
-    const handleEditModal = (data) => {
-        setSelected(data)
-        setEditModal(true)
-    }
-
-    const handleDeleteModal = (data) => {
-        setSelected(data)
-        setDeleteModal(true)
-    }
 
     const handleGetData = async () => {
         const { data, error } = await fetchUserData();
@@ -149,23 +125,6 @@ export default function FullFeaturedCrudGrid() {
                     toolbar: { showQuickFilter: true, }
                 }}
             />
-            <Drawer
-                open={editModal}
-                anchor='right'
-                sx={{ zIndex: 1300 }}
-                onClose={() => setEditModal(false)}
-            >
-                <Edit selected={selected} onClose={() => setEditModal(false)} handleGetData={handleGetData} />
-            </Drawer>
-
-            <AlertModal
-                open={deleteModal}
-                anchor='right'
-                sx={{ zIndex: 1300 }}
-                onClose={() => setDeleteModal(false)}
-            >
-                <Delete selected={selected} onClose={() => setDeleteModal(false)} handleGetData={handleGetData} />
-            </AlertModal>
         </Card>
     );
 }
@@ -179,5 +138,49 @@ function EditToolbar() {
             </Box>
         </GridToolbarContainer>
     );
+}
+
+function EditContent({ row, handleGetData }) {
+    const [modal, setModal] = useState(false);
+    return (
+        <>
+            <GridActionsCellItem
+                icon={<EditIcon />}
+                label="Edit"
+                color="warning"
+                onClick={() => setModal(true)}
+            />
+
+            <Drawer
+                open={modal}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+                onClose={() => setModal(false)}
+            >
+                <Edit selected={row} onClose={() => setModal(false)} handleGetData={handleGetData} />
+            </Drawer>
+        </>
+    )
+}
+
+function DeleteContent({ row, handleGetData }) {
+    const [modal, setModal] = useState(false);
+    return (
+        <>
+            <GridActionsCellItem
+                icon={<DeleteIcon />}
+                label="Delete"
+                color="error"
+                onClick={() => setModal(true)}
+            />
+
+            <AlertModal
+                open={modal}
+                onClose={() => setModal(false)}
+            >
+                <Delete selected={row} onClose={() => setModal(false)} handleGetData={handleGetData} />
+            </AlertModal>
+        </>
+    )
 }
 

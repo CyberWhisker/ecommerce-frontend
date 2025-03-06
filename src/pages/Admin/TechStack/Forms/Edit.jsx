@@ -1,7 +1,7 @@
 import { Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
-import { updateTechStack } from '../../../../api/techStack';
+import { updateTechStack } from '../../../../api/techStackApi';
 
 export default function Edit({ onClose, handleGetData, selected }) {
     const [formData, setFormData] = useState(selected);

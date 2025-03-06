@@ -2,7 +2,7 @@ import { Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/m
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import { Image } from '@mui/icons-material';
-import { storeTechStack } from '../../../../api/techStack';
+import { storeTechStack } from '../../../../api/techStackApi';
 
 export default function Store({ onClose, handleGetData }) {
     const [formData, setFormData] = useState({

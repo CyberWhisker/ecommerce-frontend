@@ -9,10 +9,9 @@ import ProtectedRoute from './context/ProtectedRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
 import { AuthProvider } from './context/AuthContext';
-import Dashboard from './pages/Admin/Dashboard/Dashboard';
-import Users from './pages/Admin/Users/Users';
-import TechStack from './pages/Admin/TechStack/TechStack';
 import { ForgotPassword, Login, NotVerified, Register, ResetPassword, Verify } from './pages/Auth';
+import { Dashboard, TechStack, Users } from './pages/Admin';
+import { EcommerceDashboard, EcommerceInventory } from './pages/Ecommerce';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +27,7 @@ const router = createBrowserRouter([
           },
         ]
       },
+      //Auth Routes
       {
         path: '/verify-email',
         Component: LandingLayout,
@@ -88,6 +88,7 @@ const router = createBrowserRouter([
           },
         ]
       },
+      //Admin Routes
       {
         path: '/dashboard',
         Component: ProtectedRoute,
@@ -115,6 +116,27 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: TechStack,
+          },
+        ]
+      },
+      //Ecommerce Routes
+      {
+        path: '/ecommerce/dashboard',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: EcommerceDashboard
+          },
+        ]
+      },
+      {
+        path: '/ecommerce/inventory',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: EcommerceInventory
           },
         ]
       },

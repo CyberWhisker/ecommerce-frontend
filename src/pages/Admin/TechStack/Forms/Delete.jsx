@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, Divider } from '@mui/material';
 import { toast } from 'react-toastify';
-import { deleteTechStack } from '../../../../api/techStack';
+import { deleteTechStack } from '../../../../api/techStackApi';
 
 const headerStyle = {
     p: 2,
