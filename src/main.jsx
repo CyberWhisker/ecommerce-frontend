@@ -11,7 +11,7 @@ import AuthLayout from './layouts/auth';
 import { AuthProvider } from './context/AuthContext';
 import { ForgotPassword, Login, NotVerified, Register, ResetPassword, Verify } from './pages/Auth';
 import { Dashboard, TechStack, Users, Projects } from './pages/Admin';
-import { EcommerceDashboard, EcommerceInventory } from './pages/Ecommerce';
+import { EcommerceDashboard, EcommerceInventory, EcommerceTransaction, EcommerceOrder } from './pages/Ecommerce';
 
 const router = createBrowserRouter([
   {
@@ -147,6 +147,26 @@ const router = createBrowserRouter([
           {
             path: '',
             Component: EcommerceInventory
+          },
+        ]
+      },
+      {
+        path: '/ecommerce/transaction',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: EcommerceTransaction
+          },
+        ]
+      },
+      {
+        path: '/ecommerce/order',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: EcommerceOrder
           },
         ]
       },

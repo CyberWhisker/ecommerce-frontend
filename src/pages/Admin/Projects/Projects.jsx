@@ -15,9 +15,6 @@ import { toast } from 'react-toastify';
 
 export default function Projects() {
     const [rows, setRows] = useState([]);
-    const [selected, setSelected] = useState([]);
-    const [editModal, setEditModal] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
 
     const handleGetData = async () => {
         const { data, error } = await fetchProject()
@@ -36,23 +33,6 @@ export default function Projects() {
         <Box>
             <CardList rows={rows} handleGetData={handleGetData} />
             <AddContent handleGetData={handleGetData} />
-            <Drawer
-                open={editModal}
-                anchor='right'
-                sx={{ zIndex: 1300 }}
-                onClose={() => setEditModal(false)}
-            >
-                <Edit selected={selected} onClose={() => setEditModal(false)} handleGetData={handleGetData} />
-            </Drawer>
-
-            <AlertModal
-                open={deleteModal}
-                anchor='right'
-                sx={{ zIndex: 1300 }}
-                onClose={() => setDeleteModal(false)}
-            >
-                <Delete selected={selected} onClose={() => setDeleteModal(false)} handleGetData={handleGetData} />
-            </AlertModal>
         </Box>
     );
 }

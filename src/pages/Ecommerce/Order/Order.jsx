@@ -17,7 +17,7 @@ import { Add, Image } from '@mui/icons-material';
 import { fetchInventory } from '../../../api/inventoryApi';
 import Store from './Forms/Store';
 
-export default function Inventory() {
+export default function Order() {
     const [rows, setRows] = useState([]);
 
     const columns = [
@@ -146,7 +146,7 @@ function StoreContent({ handleGetData }) {
     const [modal, setModal] = useState(false)
     return (
         <>
-            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Inventory</Button>
+            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Order</Button>
             <Drawer
                 open={modal}
                 anchor='right'

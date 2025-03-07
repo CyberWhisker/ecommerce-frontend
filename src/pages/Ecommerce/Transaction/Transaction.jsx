@@ -14,10 +14,10 @@ import Edit from './Forms/Edit';
 import AlertModal from '../../../components/AlertModal';
 import Delete from './Forms/Delete';
 import { Add, Image } from '@mui/icons-material';
-import { fetchInventory } from '../../../api/inventoryApi';
 import Store from './Forms/Store';
+import { fetchTransaction } from '../../../api/transactionApi';
 
-export default function Inventory() {
+export default function Transaction() {
     const [rows, setRows] = useState([]);
 
     const columns = [
@@ -90,14 +90,11 @@ export default function Inventory() {
     ];
 
     const handleGetData = async () => {
-        const { data, error } = await fetchInventory();
+        const { data, error } = await fetchTransaction()
         if (error) {
-            console.log(error)
+            toast.error("Server Error")
         } else {
-            setRows(data.map(item => ({
-                ...item,
-                createdAt: new Date(item.createdAt) // Convert to Date object
-            })));
+            setRows(data)
         }
     }
 
@@ -146,7 +143,7 @@ function StoreContent({ handleGetData }) {
     const [modal, setModal] = useState(false)
     return (
         <>
-            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Inventory</Button>
+            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Transaction</Button>
             <Drawer
                 open={modal}
                 anchor='right'
