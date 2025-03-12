@@ -10,8 +10,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import AuthLayout from './layouts/auth';
 import { AuthProvider } from './context/AuthContext';
 import { ForgotPassword, Login, NotVerified, Register, ResetPassword, Verify } from './pages/Auth';
-import { Dashboard, TechStack, Users, Projects } from './pages/Admin';
-import { EcommerceDashboard, EcommerceInventory, EcommerceTransaction, EcommerceOrder } from './pages/Ecommerce';
+import { Dashboard, TechStack, Users, Projects, Experience } from './pages/Admin';
 
 const router = createBrowserRouter([
   {
@@ -120,53 +119,22 @@ const router = createBrowserRouter([
         ]
       },
       {
+        path: '/experience',
+        Component: ProtectedRoute,
+        children: [
+          {
+            path: '',
+            Component: Experience,
+          },
+        ]
+      },
+      {
         path: '/techStack',
         Component: ProtectedRoute,
         children: [
           {
             path: '',
             Component: TechStack,
-          },
-        ]
-      },
-      //Ecommerce Routes
-      {
-        path: '/ecommerce/dashboard',
-        Component: ProtectedRoute,
-        children: [
-          {
-            path: '',
-            Component: EcommerceDashboard
-          },
-        ]
-      },
-      {
-        path: '/ecommerce/inventory',
-        Component: ProtectedRoute,
-        children: [
-          {
-            path: '',
-            Component: EcommerceInventory
-          },
-        ]
-      },
-      {
-        path: '/ecommerce/transaction',
-        Component: ProtectedRoute,
-        children: [
-          {
-            path: '',
-            Component: EcommerceTransaction
-          },
-        ]
-      },
-      {
-        path: '/ecommerce/order',
-        Component: ProtectedRoute,
-        children: [
-          {
-            path: '',
-            Component: EcommerceOrder
           },
         ]
       },

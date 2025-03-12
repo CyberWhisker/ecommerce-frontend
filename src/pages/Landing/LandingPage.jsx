@@ -4,12 +4,14 @@ import FadeInAnimation from '../../components/FadeInAnimation'
 import { Link, useNavigate } from 'react-router'
 import ProjectSection from './Section/ProjectSection'
 import TechStackSection from './Section/TechStackSection'
+import ExperienceSection from './Section/ExperienceSection'
 
 function LandingPage() {
     return (
         <Stack>
             <HeroPage />
             <ProjectSection />
+            <ExperienceSection />
             <TechStackSection />
         </Stack>
     )

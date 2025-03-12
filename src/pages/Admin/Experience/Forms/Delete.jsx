@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, Divider } from '@mui/material';
 import { toast } from 'react-toastify';
-import { deleteInventory } from '../../../../api/inventoryApi';
+import { deleteExperience } from '../../../../api/experienceApi';
 
 const headerStyle = {
     p: 2,
@@ -21,7 +21,7 @@ export default function Delete({ selected, onClose, handleGetData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await deleteInventory(selected)
+        const { data, error } = await deleteExperience(selected)
         if (error) {
             onClose();
             toast.error("Something went wrong!")

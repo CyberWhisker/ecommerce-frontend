@@ -23,13 +23,13 @@ export default function TechStackSection() {
         <Box
             sx={{
                 py: 5,
-                // bgcolor: theme.palette.mode === 'dark' ? '#242424' : '#F5F5F5', // Dynamic background
+                bgcolor: theme.palette.mode === 'dark' ? '#242424' : '#F5F5F5', // Dynamic background
             }}
         >
             <Container>
                 <Stack spacing={2}>
-                    <Typography variant='h2' fontWeight={'bold'} textAlign={'right'}>TechStack</Typography>
-                    <Grid2 container spacing={2} justifyContent={'right'}>
+                    <Typography variant='h2' fontWeight={'bold'}>TechStack</Typography>
+                    <Grid2 container spacing={2}>
                         {row.map((item, index) => (
                             <Grid2 size={3} key={index}>
                                 <FadeInAnimation index={index}>
