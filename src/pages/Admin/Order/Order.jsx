@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import {
     DataGrid,
     GridToolbarContainer,
@@ -9,63 +8,72 @@ import {
     GridToolbar,
     GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import { Avatar, Card, Chip, Drawer } from '@mui/material';
-import { fetchUserData } from '../../../api/userApi';
-import moment from 'moment';
+import { Button, Card, Drawer } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import Edit from './Forms/Edit';
 import AlertModal from '../../../components/AlertModal';
 import Delete from './Forms/Delete';
+import { Add, Image } from '@mui/icons-material';
+import { fetchInventory } from '../../../api/inventoryApi';
+import Store from './Forms/Store';
 
-export default function Users() {
+export default function Order() {
     const [rows, setRows] = useState([]);
 
     const columns = [
         {
             field: 'picture',
-            headerName: 'Avatar',
+            headerName: 'Image',
             headerAlign: 'center',
             renderCell: ({ row }) => (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    <Avatar src={row.picture} alt={row.name} />
-                </Box>
+                <Card sx={{ height: '100%', width: '100%', p: .2 }}>
+                    {row.image ? (
+                        <img style={{ width: '100%', height: '100%' }} src={row.image} />
+                    ) : (
+                        <Image sx={{ width: '100%', height: '100%' }} />
+                    )}
+                </Card>
             ),
         },
         {
-            field: 'name',
-            headerName: 'Name',
-            align: 'left',
-            headerAlign: 'left',
+            field: 'item',
+            headerName: 'Item',
+            headerAlign: 'center',
             editable: true,
             flex: 1,
         },
         {
-            field: 'email',
-            headerName: 'Email',
+            field: 'description',
+            headerName: 'Description',
+            headerAlign: 'center',
+            editable: true,
+            flex: 1,
+        },
+        {
+            field: 'quantity',
+            type: 'number',
+            headerName: 'Qauntity',
+            headerAlign: 'center',
+            width: 180,
+            editable: true,
+            flex: 1,
+        },
+        {
+            field: 'amount',
+            type: 'number',
+            headerName: 'Amount',
+            headerAlign: 'center',
             width: 180,
             editable: true,
             flex: 1,
         },
         {
             field: 'createdAt',
+            type: 'date',
+            headerAlign: 'center',
             headerName: 'Created At',
             width: 220,
             flex: 1,
-        },
-        {
-            field: 'verified',
-            headerName: 'Verified',
-            width: 220,
-            flex: 1,
-            renderCell: ({ row }) => (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    {row.verified && (
-                        <Chip color='success' label='Verified' />
-                    )}
-                    {!row.verified && (
-                        <Chip color='error' label='Not Verified' />
-                    )}
-                </Box>
-            )
         },
         {
             field: 'actions',
@@ -76,27 +84,21 @@ export default function Users() {
             getActions: ({ row }) => {
                 return [
                     <EditContent row={row} handleGetData={handleGetData} />,
-                    <DeleteContent row={row} handleGetData={handleGetData} />
+                    <DeleteContent row={row} handleGetData={handleGetData} />,
                 ];
             },
         },
     ];
 
     const handleGetData = async () => {
-        const { data, error } = await fetchUserData();
+        const { data, error } = await fetchInventory();
         if (error) {
             console.log(error)
         } else {
-            const formattedRows = data.map((item) => ({
-                id: item.id,
-                name: item.name,
-                email: item.email,
-                createdAt: moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-                picture: item.picture,
-                verified: item.verified,
-                role: item.role,
-            }));
-            setRows(formattedRows);
+            setRows(data.map(item => ({
+                ...item,
+                createdAt: new Date(item.createdAt) // Convert to Date object
+            })));
         }
     }
 
@@ -120,7 +122,7 @@ export default function Users() {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                slots={{ toolbar: EditToolbar }}
+                slots={{ toolbar: () => <EditToolbar handleGetData={handleGetData} /> }}
                 slotProps={{
                     toolbar: { showQuickFilter: true, }
                 }}
@@ -129,15 +131,33 @@ export default function Users() {
     );
 }
 
-function EditToolbar() {
+function EditToolbar({ handleGetData }) {
     return (
         <GridToolbarContainer>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <StoreContent handleGetData={handleGetData} />
                 <GridToolbar />
                 <GridToolbarQuickFilter />
             </Box>
         </GridToolbarContainer>
     );
+}
+
+function StoreContent({ handleGetData }) {
+    const [modal, setModal] = useState(false)
+    return (
+        <>
+            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Inventory</Button>
+            <Drawer
+                open={modal}
+                anchor='right'
+                sx={{ zIndex: 1300 }}
+                onClose={() => setModal(false)}
+            >
+                <Store onClose={() => setModal(false)} handleGetData={handleGetData} />
+            </Drawer>
+        </>
+    )
 }
 
 function EditContent({ row, handleGetData }) {
@@ -183,4 +203,3 @@ function DeleteContent({ row, handleGetData }) {
         </>
     )
 }
-

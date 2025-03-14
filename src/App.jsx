@@ -10,6 +10,7 @@ const NAVIGATION_CONFIG = {
     { kind: 'header', title: 'Main items' },
     { title: 'Dashboard', segment: 'dashboard', icon: <DashboardOutlined /> },
     { title: 'Users', segment: 'user', icon: <Person /> },
+    { title: 'Inventory', segment: 'inventory', icon: <Inventory /> },
     { kind: 'header', title: 'Maintenance' },
     { title: 'Projects', segment: 'projects', icon: <Web /> },
     { title: 'Experience', segment: 'experience', icon: <Event /> },
