@@ -1,7 +1,7 @@
 import { Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
-import { updateInventory } from '../../../../api/inventoryApi';
+import { updateOrder } from '../../../../api/orderApi';
 
 export default function Edit({ onClose, handleGetData, selected }) {
     const [formData, setFormData] = useState(selected);
@@ -14,7 +14,7 @@ export default function Edit({ onClose, handleGetData, selected }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await updateInventory(formData)
+        const { data, error } = await updateOrder(formData)
         if (error) {
             toast.error('Failed')
         } else {
@@ -36,8 +36,7 @@ export default function Edit({ onClose, handleGetData, selected }) {
                         <Typography>Item Information</Typography>
                         <TextField label={'Item'} value={formData.item} name='item' onChange={handleChange} required />
                         <TextField label={'Description'} value={formData.description} name='description' onChange={handleChange} required />
-                        <TextField label={'Qauntity'} value={formData.quantity} name='quantity' onChange={handleChange} required />
-                        <TextField label={'Amount'} value={formData.amount} name='amount' onChange={handleChange} required />
+                        <TextField label={'Price'} value={formData.price} name='price' onChange={handleChange} required />
                         <Button type='submit' variant='contained'>Submit</Button>
                     </Stack>
                 </form>

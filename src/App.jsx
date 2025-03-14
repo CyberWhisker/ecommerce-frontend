@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { CreditCard, DashboardOutlined, Event, Inventory, Person, Settings, TravelExplore, Web } from '@mui/icons-material';
+import { DashboardOutlined, Event, Inventory, Person, Settings, Web } from '@mui/icons-material';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import { AuthContext } from './context/AuthContext';
 
@@ -10,7 +10,10 @@ const NAVIGATION_CONFIG = {
     { kind: 'header', title: 'Main items' },
     { title: 'Dashboard', segment: 'dashboard', icon: <DashboardOutlined /> },
     { title: 'Users', segment: 'user', icon: <Person /> },
-    { title: 'Inventory', segment: 'inventory', icon: <Inventory /> },
+    { kind: 'header', title: 'Inventory' },
+    { title: 'Item', segment: 'item', icon: <Inventory /> },
+    { title: 'Supply', segment: 'supply', icon: <Inventory /> },
+    { title: 'Order', segment: 'order', icon: <Inventory /> },
     { kind: 'header', title: 'Maintenance' },
     { title: 'Projects', segment: 'projects', icon: <Web /> },
     { title: 'Experience', segment: 'experience', icon: <Event /> },

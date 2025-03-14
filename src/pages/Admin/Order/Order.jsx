@@ -13,38 +13,24 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import Edit from './Forms/Edit';
 import AlertModal from '../../../components/AlertModal';
 import Delete from './Forms/Delete';
-import { Add, Image } from '@mui/icons-material';
-import { fetchInventory } from '../../../api/inventoryApi';
+import { Add } from '@mui/icons-material';
 import Store from './Forms/Store';
+import { fetchOrder } from '../../../api/orderApi';
 
 export default function Order() {
     const [rows, setRows] = useState([]);
 
     const columns = [
         {
-            field: 'picture',
-            headerName: 'Image',
-            headerAlign: 'center',
-            renderCell: ({ row }) => (
-                <Card sx={{ height: '100%', width: '100%', p: .2 }}>
-                    {row.image ? (
-                        <img style={{ width: '100%', height: '100%' }} src={row.image} />
-                    ) : (
-                        <Image sx={{ width: '100%', height: '100%' }} />
-                    )}
-                </Card>
-            ),
-        },
-        {
-            field: 'item',
-            headerName: 'Item',
+            field: 'user',
+            headerName: 'User',
             headerAlign: 'center',
             editable: true,
             flex: 1,
         },
         {
-            field: 'description',
-            headerName: 'Description',
+            field: 'item',
+            headerName: 'Item',
             headerAlign: 'center',
             editable: true,
             flex: 1,
@@ -59,9 +45,9 @@ export default function Order() {
             flex: 1,
         },
         {
-            field: 'amount',
+            field: 'price',
             type: 'number',
-            headerName: 'Amount',
+            headerName: 'Price',
             headerAlign: 'center',
             width: 180,
             editable: true,
@@ -91,16 +77,13 @@ export default function Order() {
     ];
 
     const handleGetData = async () => {
-        const { data, error } = await fetchInventory();
+        const { data, error } = await fetchOrder();
         if (error) {
-            console.log(error)
+            console.log(error);
         } else {
-            setRows(data.map(item => ({
-                ...item,
-                createdAt: new Date(item.createdAt) // Convert to Date object
-            })));
+            setRows(data);
         }
-    }
+    };
 
     useEffect(() => {
         handleGetData();
@@ -147,7 +130,7 @@ function StoreContent({ handleGetData }) {
     const [modal, setModal] = useState(false)
     return (
         <>
-            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Inventory</Button>
+            <Button endIcon={<Add />} onClick={() => setModal(true)}>Add Order</Button>
             <Drawer
                 open={modal}
                 anchor='right'

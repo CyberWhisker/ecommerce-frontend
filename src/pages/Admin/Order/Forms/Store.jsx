@@ -1,15 +1,16 @@
-import { Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Autocomplete, Box, Button, Card, Divider, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Image } from '@mui/icons-material';
-import { storeInventory } from '../../../../api/inventoryApi';
+import { storeOrder } from '../../../../api/orderApi';
+import { fetchUserData } from '../../../../api/userApi';
+import { fetchItem } from '../../../../api/itemApi';
 
 export default function Store({ onClose, handleGetData }) {
     const [formData, setFormData] = useState({
         item: '',
         description: '',
-        quantity: '',
-        amount: '',
+        price: '',
     });
 
     const handleChange = (e) => {
@@ -21,7 +22,7 @@ export default function Store({ onClose, handleGetData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await storeInventory(formData)
+        const { data, error } = await storeOrder(formData)
         if (error) {
             toast.error("Failed")
         } else {
@@ -38,13 +39,13 @@ export default function Store({ onClose, handleGetData }) {
                 <Divider />
                 <form onSubmit={handleSubmit}>
                     <Stack spacing={1}>
-                        <UpdateProfile formData={formData} setFormData={setFormData} />
+                        <SelectUser formData={formData} setFormData={setFormData} />
+                        <SelectItem formData={formData} setFormData={setFormData} />
                         <Divider />
                         <Typography>Item Information</Typography>
                         <TextField label={'Item'} value={formData.item} name='item' onChange={handleChange} required />
                         <TextField label={'Description'} value={formData.description} name='description' onChange={handleChange} required />
-                        <TextField label={'Qauntity'} value={formData.quantity} name='quantity' onChange={handleChange} required />
-                        <TextField label={'Amount'} value={formData.amount} name='amount' onChange={handleChange} required />
+                        <TextField label={'Price'} value={formData.price} name='price' onChange={handleChange} required />
                         <Button type='submit' variant='contained'>Submit</Button>
                     </Stack>
                 </form>
@@ -53,36 +54,71 @@ export default function Store({ onClose, handleGetData }) {
     )
 }
 
-function UpdateProfile({ formData, setFormData }) {
-    const [preview, setPreview] = useState(null); // Store preview image
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setFormData({ ...formData, file });
-            setPreview(URL.createObjectURL(file)); // Create preview URL
+function SelectUser({ setFormData, formData }) {
+    const [data, setData] = useState([]);
+
+    const handleChange = (event, value) => {
+        setFormData({
+            ...formData,
+            userId: value._id
+        })
+    };
+
+    const handleGetData = async () => {
+        const { data, error } = await fetchUserData();
+        if (!error) {
+            setData(data);
         }
     };
 
-    const handleAvatarClick = () => {
-        document.getElementById('fileInput').click(); // Trigger file input
-    };
+    useEffect(() => {
+        handleGetData();
+    }, []);
+
     return (
-        <Box>
-            <Typography>Select Picture</Typography>
-            <input
-                type="file"
-                id="fileInput"
-                style={{ display: 'none' }}
-                accept="image/*"
-                onChange={handleFileChange}
-            />
-            <Card sx={{ height: '100%', width: '100%', cursor: 'pointer' }} onClick={handleAvatarClick}>
-                {preview ? (
-                    <img style={{ width: '100%', height: '20vh' }} src={formData.image ? `/profileImg/${formData.image}` : preview} />
-                ) : (
-                    <Image sx={{ width: '100%', height: '20vh' }} />
-                )}
-            </Card>
-        </Box>
+        <Autocomplete
+            disablePortal
+            options={data}
+            getOptionKey={(option) => option._id || ''}
+            getOptionLabel={(option) => option.name || ''}
+            onChange={handleChange}
+            renderInput={(params) => (
+                <TextField {...params} label="Select Item" />
+            )}
+        />
+    );
+}
+
+function SelectItem({ setFormData, formData }) {
+    const [data, setData] = useState([]);
+
+    const handleChange = (event, value) => {
+        setFormData({
+            ...formData,
+            itemId: value._id
+        })
+    };
+
+    const handleGetData = async () => {
+        const { data, error } = await fetchItem();
+        if (!error) {
+            setData(data);
+        }
+    };
+
+    useEffect(() => {
+        handleGetData();
+    }, []);
+
+    return (
+        <Autocomplete
+            disablePortal
+            options={data}
+            getOptionLabel={(option) => option.item || ''}
+            onChange={handleChange}
+            renderInput={(params) => (
+                <TextField {...params} label="Select Item" />
+            )}
+        />
     );
 }
